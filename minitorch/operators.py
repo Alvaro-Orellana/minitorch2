@@ -5,6 +5,7 @@ Collection of the core mathematical operators used throughout the code base.
 import math
 from typing import Callable, Iterable
 
+EPS = 1e-6
 # ## Task 0.1
 #
 # Implementation of a prelude of elementary functions.
@@ -25,17 +26,11 @@ def max(x: float, y: float) -> float: return x if x > y else y
 
 def is_close(x: float, y: float) -> float: return 1.0 if abs(x - y) < 1e-2 else 0.0
 
-def sigmoid(x: float) -> float:
-    if x >= 0:
-        return 1.0 / (1.0 + exp(-x))
-    else:
-        return 1.0 / (1.0 + exp(x))
+def sigmoid(x: float) -> float: return 1.0 / (1.0 + exp(-x if x >= 0 else x))
 
 def relu(x: float) -> float: return max(0.0, x)
 
-EPS = 1e-6
-
-def log(x: float) -> float: return math.log(x + EPS)
+def log(x: float) -> float: return math.log(x)
 
 def exp(x: float) -> float: return math.exp(x)
 
@@ -53,7 +48,7 @@ def relu_back(x: float, d: float) -> float:
 
 # ## Task 0.3
 
-# Small practice library of elementary higher-order functions.
+# Small practice library of elementary higher-order functions. 
 
 def map(fn: Callable[[float], float]) -> Callable[[Iterable[float]], Iterable[float]]:
     """  

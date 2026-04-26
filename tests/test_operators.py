@@ -1,30 +1,9 @@
-from typing import Callable, List, Tuple
-
 import pytest
 from hypothesis import given
 from hypothesis.strategies import lists
-
+from typing import Callable, List, Tuple
 from minitorch import MathTest
-from minitorch.operators import (
-    add,
-    addLists,
-    eq,
-    id,
-    inv,
-    inv_back,
-    log_back,
-    lt,
-    max,
-    mul,
-    neg,
-    negList,
-    prod,
-    relu,
-    relu_back,
-    sigmoid,
-    sum,
-)
-
+from minitorch.operators import add, eq, id, inv, inv_back, log_back, lt, max, mul, neg, prod, relu, relu_back, sigmoid, sum, addLists, negList
 from .strategies import assert_close, small_floats
 
 # ## Task 0.1 Basic hypothesis tests.
