@@ -26,7 +26,7 @@ def max(x: float, y: float) -> float: return x if x > y else y
 
 def is_close(x: float, y: float) -> float: return 1.0 if abs(x - y) < 1e-2 else 0.0
 
-def sigmoid(x: float) -> float: return 1.0 / (1.0 + exp(-x if x >= 0 else x))
+def sigmoid(x: float) -> float: return 1.0 / (1.0 + exp(-x))
 
 def relu(x: float) -> float: return max(0.0, x)
 
@@ -34,9 +34,9 @@ def log(x: float) -> float: return math.log(x)
 
 def exp(x: float) -> float: return math.exp(x)
 
-def log_back(x: float, d: float) -> float: return d * (1 / x)
-
 def inv(x: float) -> float: return 1.0 / x
+
+def log_back(x: float, d: float) -> float: return d * (1 / x)
 
 def inv_back(x: float, d: float) -> float:
     inv_derivative = -1 / x**2
@@ -66,9 +66,7 @@ def negList(ls: Iterable[float]) -> Iterable[float]:
     raise NotImplementedError('Need to implement for Task 0.3')
 
 
-def zipWith(
-    fn: Callable[[float, float], float]
-) -> Callable[[Iterable[float], Iterable[float]], Iterable[float]]:
+def zipWith(fn: Callable[[float, float], float]) -> Callable[[Iterable[float], Iterable[float]], Iterable[float]]:
     """  
     Higher-order zipwith (or map2).  
     See https://en.wikipedia.org/wiki/Map_(higher-order_function)  
@@ -84,9 +82,7 @@ def addLists(ls1: Iterable[float], ls2: Iterable[float]) -> Iterable[float]:
     raise NotImplementedError('Need to implement for Task 0.3')
 
 
-def reduce(
-    fn: Callable[[float, float], float], start: float
-) -> Callable[[Iterable[float]], float]:
+def reduce(fn: Callable[[float, float], float], start: float) -> Callable[[Iterable[float]], float]:
     r"""  
     Higher-order reduce.  
     Args:        fn: combine two values        start: start value $x_0$  

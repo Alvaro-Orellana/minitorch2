@@ -1,10 +1,10 @@
 import pytest
-from hypothesis import given
+from hypothesis import given, assume
 from hypothesis.strategies import lists
+from .strategies import assert_close, small_floats
 from typing import Callable, List, Tuple
 from minitorch import MathTest
 from minitorch.operators import add, eq, id, inv, inv_back, log_back, lt, max, mul, neg, prod, relu, relu_back, sigmoid, sum, addLists, negList
-from .strategies import assert_close, small_floats
 
 # ## Task 0.1 Basic hypothesis tests.
 
@@ -71,60 +71,61 @@ def test_eq(a: float) -> None:
 
 
 # ## Task 0.2 - Property Testing
-
-# Implement the following property checks
-# that ensure that your operators obey basic
-# mathematical rules.
+# Implement the following property checks that ensure that your operators obey basic mathematical rules.
 
 
 @pytest.mark.task0_2
-@given(small_floats)
-def test_sigmoid(a: float) -> None:
-    """Check properties of the sigmoid function, specifically
-    * It is always between 0.0 and 1.0.
-    * one minus sigmoid is the same as sigmoid of the negative
-    * It crosses 0 at 0.5
-    * It is  strictly increasing.
-    """
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
-
+@given(small_floats, small_floats)
+def test_sigmoid(a: float, b: float) -> None:
+    # It is always between 0.0 and 1.0.
+    assert 0 <= sigmoid(a) <= 1
+    # one minus sigmoid is the same as sigmoid of the negative
+    assert_close(1 - sigmoid(a), sigmoid(-a))
+    # It crosses 0 at 0.5
+    assert_close(sigmoid(0), 0.5)
+    # It is  strictly increasing.
+    assume(a < b)
+    assume(abs(a - b) > 1e-8)
+    assert sigmoid(a) < sigmoid(b)
 
 @pytest.mark.task0_2
 @given(small_floats, small_floats, small_floats)
 def test_transitive(a: float, b: float, c: float) -> None:
     "Test the transitive property of less-than (a < b and b < c implies a < c)"
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    if a < b and b < c:
+        assert a < c
 
 
 @pytest.mark.task0_2
-def test_symmetric() -> None:
+@given(small_floats, small_floats)
+def test_symmetric(a: float, b: float) -> None:
     """
     Write a test that ensures that :func:`minitorch.operators.mul` is symmetric, i.e.
     gives the same value regardless of the order of its input.
     """
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    assert mul(a,b) == mul(b,a)
 
 
 @pytest.mark.task0_2
-def test_distribute() -> None:
+@given(small_floats, small_floats, small_floats)
+def test_distribute(x: float, y: float, z: float) -> None:
     r"""
     Write a test that ensures that your operators distribute, i.e.
     :math:`z \times (x + y) = z \times x + z \times y`
     """
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    a = mul(z, add(x, y))
+    b = add(mul(z,x), mul(z,y))
+    assert_close(a, b)
 
 
 @pytest.mark.task0_2
-def test_other() -> None:
+@given(small_floats, small_floats)
+def test_other(a: float, b: float) -> None:
     """
     Write a test that ensures some other property holds for your functions.
     """
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    #test commutative
+    assert add(a,b) == add(b,a)
 
 
 # ## Task 0.3  - Higher-order functions
