@@ -10,33 +10,47 @@ EPS = 1e-6
 #
 # Implementation of a prelude of elementary functions.
 
-def mul(x: float, y: float) -> float: return x * y
+def mul(x: float, y: float) -> float:
+    return x * y
 
-def id(x: float) -> float: return x
+def id(x: float) -> float:
+    return x
 
-def add(x: float, y: float) -> float: return x + y
+def add(x: float, y: float) -> float:
+    return x + y
 
-def neg(x: float) -> float: return -x
+def neg(x: float) -> float:
+    return -x
 
-def lt(x: float, y: float) -> float: return 1.0 if x < y else 0.0
+def lt(x: float, y: float) -> float:
+    return 1.0 if x < y else 0.0
 
-def eq(x: float, y: float) -> float: return 1.0 if x == y else 0.0
+def eq(x: float, y: float) -> float:
+    return 1.0 if x == y else 0.0
 
-def max(x: float, y: float) -> float: return x if x > y else y
+def max(x: float, y: float) -> float:
+    return x if x > y else y
 
-def is_close(x: float, y: float) -> float: return 1.0 if abs(x - y) < 1e-2 else 0.0
+def is_close(x: float, y: float) -> float:
+    return 1.0 if abs(x - y) < 1e-2 else 0.0
 
-def sigmoid(x: float) -> float: return 1.0 / (1.0 + exp(-x))
+def sigmoid(x: float) -> float:
+    return 1.0 / (1.0 + exp(-x))
 
-def relu(x: float) -> float: return max(0.0, x)
+def relu(x: float) -> float:
+    return max(0.0, x)
 
-def log(x: float) -> float: return math.log(x)
+def log(x: float) -> float:
+    return math.log(x)
 
-def exp(x: float) -> float: return math.exp(x)
+def exp(x: float) -> float:
+    return math.exp(x)
 
-def inv(x: float) -> float: return 1.0 / x
+def inv(x: float) -> float:
+    return 1.0 / x
 
-def log_back(x: float, d: float) -> float: return d * (1 / x)
+def log_back(x: float, d: float) -> float:
+    return d * (1 / x)
 
 def inv_back(x: float, d: float) -> float:
     inv_derivative = -1 / x**2
@@ -56,8 +70,8 @@ def map(fn: Callable[[float], float]) -> Callable[[Iterable[float]], Iterable[fl
     See https://en.wikipedia.org/wiki/Map_(higher-order_function)  
     Args:        fn: Function from one value to one value.  
     Returns:         A function that takes a list, applies `fn` to each element, and returns a         new list    """
-    def _map(list: Iterable[float]) -> Iterable[float]:
-        return [fn(element) for element in list]
+    def _map(ls: Iterable[float]) -> Iterable[float]:
+        return [fn(element) for element in ls]
     return _map
 
 def negList(ls: Iterable[float]) -> Iterable[float]:

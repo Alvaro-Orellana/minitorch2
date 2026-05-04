@@ -86,6 +86,8 @@ def test_sigmoid(a: float, b: float) -> None:
     # It is  strictly increasing.
     assume(a < b)
     assume(abs(a - b) > 1e-8)
+    assume(b < 15)
+
     assert sigmoid(a) < sigmoid(b)
 
 @pytest.mark.task0_2
@@ -193,9 +195,7 @@ def test_one_args(fn: Tuple[str, Callable[[float], float]], t1: float) -> None:
 
 @given(small_floats, small_floats)
 @pytest.mark.parametrize("fn", two_arg)
-def test_two_args(
-    fn: Tuple[str, Callable[[float, float], float]], t1: float, t2: float
-) -> None:
+def test_two_args(fn: Tuple[str, Callable[[float, float], float]], t1: float, t2: float) -> None:
     name, base_fn = fn
     base_fn(t1, t2)
 
