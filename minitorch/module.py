@@ -35,36 +35,36 @@ class Module:
         for m in self.modules():
             m.train()
 
-
     def eval(self) -> None:
         "Set the mode of this module and all descendent modules to `eval`."
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        self.training = False
+        for m in self.modules():
+            m.eval()
 
     def named_parameters(self) -> Sequence[Tuple[str, Parameter]]:
         """
         Collect all the parameters of this module and its descendents.
-
-
         Returns:
             The name and `Parameter` of each ancestor parameter.
         """
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        parameters = list(self._parameters.items())
+
+        for module_name, module in self._modules.items():
+            for submodule_name, subparameter in module.named_parameters():
+                parameters += [(f"{module_name}.{submodule_name}", subparameter)]
+
+        return parameters
 
     def parameters(self) -> Sequence[Parameter]:
         "Enumerate over all the parameters of this module and its descendents."
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        return list(self._parameters.values()) + [param for module in self.modules() for param in module.parameters()]
 
     def add_parameter(self, k: str, v: Any) -> Parameter:
         """
         Manually add a parameter. Useful helper for scalar parameters.
-
         Args:
             k: Local name of the parameter.
             v: Value for the parameter.
-
         Returns:
             Newly created parameter.
         """
