@@ -10,7 +10,7 @@ ScalarLike = Union[float, int, "Scalar"]
 
 
 @dataclass
-class ScalarHistory:
+class  ScalarHistory:
     """
     `ScalarHistory` stores the history of `Function` operations that was
     used to construct the current Variable.
@@ -128,8 +128,8 @@ class Scalar:
         assert h.last_fn is not None
         assert h.ctx is not None
 
-        # TODO: Implement for Task 1.3.
-        raise NotImplementedError('Need to implement for Task 1.3')
+        gradient = h.last_fn.backward(h.ctx, d_output)
+        return zip(h.inputs, gradient)
 
     def backward(self, d_output: Optional[float] = None) -> None:
         """
