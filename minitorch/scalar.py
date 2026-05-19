@@ -143,6 +143,9 @@ class Scalar:
             d_output = 1.0
         backpropagate(self, d_output)
 
+    def __hash__(self):
+        return hash(self.unique_id)
+
 
 def derivative_check(f: Any, *scalars: Scalar) -> None:
     """
